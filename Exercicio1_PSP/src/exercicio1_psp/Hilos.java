@@ -8,7 +8,7 @@ import java.util.logging.Logger;
  *
  * @author David
  */
-public class Hilos extends Thread{
+public class Hilos extends Thread{ //extendo de Thread
     
     /*
     Programa en Java que cree dous fíos e os executa. 
@@ -17,31 +17,33 @@ public class Hilos extends Thread{
     aleatorio de segundos e después volven a estar dispoñibles para a súa execución.
     */
     
-    public String nome;
+    public String nome; //Variable String, recolle o nome do fio
     
+    //Constructor:
     public Hilos(String nome){
         this.nome=nome;
     }
-
+    
+    //Getters e Setters:
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
+
+    //Método run():
     public void run(){
-        Thread t=new Thread();
+        
         for(int i=0;i<10;i++){
-            System.out.println(i+"º - "+getNome());
+            System.out.println(i+"º - "+getNome()); //Mensaxe co nome do fio
             try {
-                Thread.sleep(1000); //Intercalar entre el hilo uno y el dos.
+                Thread.sleep(1000); //Tempo bloqueado entre o primer e o segundo fio
             } catch (InterruptedException ex) {
                 Logger.getLogger(Hilos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
     
 }

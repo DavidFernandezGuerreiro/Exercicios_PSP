@@ -12,11 +12,7 @@ public class Exercicio3_PSP {
      */
     public static void main(String[] args) throws InterruptedException {
         
-        Hilos h1=new Hilos();
-        h1.start();
-        h1.join();
-        
-//        h1.nombre();
+        new Hilos();
         
     }
     

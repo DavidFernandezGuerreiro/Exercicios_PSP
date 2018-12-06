@@ -18,10 +18,12 @@ public class Exercicio4_PSP {
         e outro, os que terminen en dous ou en tres.
         */
         
+        //Creo os fios:
         Hilo_Pares hpares=new Hilo_Pares();
         Hilo_Impares himpares=new Hilo_Impares();
         Hilo_DosTres hdostres=new Hilo_DosTres();
         
+        //Inicio os fios:
         hpares.start();
         himpares.start();
         hdostres.start();

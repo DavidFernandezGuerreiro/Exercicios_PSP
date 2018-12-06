@@ -8,7 +8,7 @@ import java.util.logging.Logger;
  *
  * @author David
  */
-public class Hilos extends Thread{
+public class Hilos extends Thread{ //extendo de Thread
     
     /*
     Realizar un programa que cree un fío, que a súa vez cree outro fío, 
@@ -19,47 +19,43 @@ public class Hilos extends Thread{
     Cada fío deberá esperar a que o seu fillo termine antes de presentar o seu último mensaxe indicando o seu nome e que rematou.
     */
     
-    public int nome;//="Hilo";
-
-    public Hilos() {
-    }
-
-    public Hilos(int nome) {
-        this.nome = nome;
-    }
-
-    public int getNome() {
-        return nome;
-    }
-
-    public void setNome(int nome) {
-        this.nome = nome;
+    static int numero=0; //Numero estático para a creación dos fios
+    Hilos hilo; //Obxeto da clase
+    
+    //Constructor:
+    public Hilos(){
+        System.out.println("Creouse o hilo nº "+this.getName()); //Imprimese o nome de cada fio
+        numero++; //Incrementa a variable "numero"
+        this.start(); //Inicializa os fio
+        
+        //Se a variable "numero" é menor que 5...
+        if(numero<5){
+            hilo=new Hilos(); //...crease un novo fio
+        }
     }
     
-    String nomeH="";
-//    public void nombre(){
-//        for(int i=0;i<5;i++){
-//            
-//            System.out.println(nomeH);
-//        }
-//    }
-
+    //Método run()
     public void run(){
         
-        for(int i=0;i<5;i++){
-//            nomeH=getNome()+i;
-            Hilos h=new Hilos(i);//nomeH); //-> Nacen los hilos hijos
-            System.out.println("Hilo nº "+h.getNome()+":"); //-> Imprime el nombre de cada hilo hijo
-            for(int j=0;j<10;j++){
-                System.out.println("Naci del hilo nº "+h.getNome()+" -> "+j); //-> Imprime de que hilo hijo viene
-                try {
-                    h.join();
-                    Thread.sleep(300);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Hilos.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        for(int i=0;i<10;i++){
+            System.out.println(i+"º - "+this.getName()); //Imprimese o nome do fio
+            try {
+                Thread.sleep((long)(Math.random()*600+100)); //Tempo aleatorio bloqueado entre cada fio
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Hilos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(this.getName().equalsIgnoreCase("Thread-4")){
+            //Se getName() é igual a "Thread-4" ... salta a o "else"
+        }else{
+            try {
+                hilo.join(); //Esperamos a que acabe o fio
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Hilos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("Acabando el hilo nº "+this.getName()); //Imprime o nome do fio que finaliza
+        
         
     }
     

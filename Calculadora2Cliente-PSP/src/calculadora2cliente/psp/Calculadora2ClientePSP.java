@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author oracle
+ * @author David Fernández
  */
 public class Calculadora2ClientePSP {
 
@@ -14,7 +14,9 @@ public class Calculadora2ClientePSP {
      */
     public static void main(String[] args) {
         
+        //Declaro un objeto de la clase JFrame Form llamada InterfazCalculadora
         InterfazCalculadora in=new InterfazCalculadora();
+        //desde el objeto hago visible la interfaz
         in.setVisible(true);
         
     }

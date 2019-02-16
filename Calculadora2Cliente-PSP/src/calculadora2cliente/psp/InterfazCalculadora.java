@@ -1,6 +1,7 @@
 
 package calculadora2cliente.psp;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,11 +9,12 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author David
+ * @author David Fernández
  */
 public class InterfazCalculadora extends javax.swing.JFrame {
 
@@ -26,13 +28,15 @@ public class InterfazCalculadora extends javax.swing.JFrame {
         initComponents();
         
     }
-    int porto;
-    
-    
-    
-    //variables:
+
+    /**
+     * @param bot recojo cada número y signo de operación de los botones
+     * @param completo concateno los numeros y operaciones
+     * @param porto recojo el número de puerto
+    */
     String bot;
     String completo="";
+    int porto;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +60,7 @@ public class InterfazCalculadora extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButtonPunto = new javax.swing.JButton();
         jButtonSuma = new javax.swing.JButton();
         jButtonResta = new javax.swing.JButton();
         jButtonMultiplicar = new javax.swing.JButton();
@@ -152,17 +157,20 @@ public class InterfazCalculadora extends javax.swing.JFrame {
             }
         });
 
+        jButtonPunto.setText(".");
+        jButtonPunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPuntoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton0)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonIgual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,12 +184,18 @@ public class InterfazCalculadora extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton0)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonPunto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(5, 5, 5)
+                        .addComponent(jButtonIgual))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +218,8 @@ public class InterfazCalculadora extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton0)
-                    .addComponent(jButtonIgual))
+                    .addComponent(jButtonIgual)
+                    .addComponent(jButtonPunto))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -237,6 +252,11 @@ public class InterfazCalculadora extends javax.swing.JFrame {
         });
 
         jTextPantalla.setBorder(javax.swing.BorderFactory.createMatteBorder(7, 7, 7, 7, new java.awt.Color(204, 204, 204)));
+        jTextPantalla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextPantallaActionPerformed(evt);
+            }
+        });
 
         jButtonRaiz.setText("√");
         jButtonRaiz.addActionListener(new java.awt.event.ActionListener() {
@@ -389,7 +409,7 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton0ActionPerformed
 
     private void jButtonSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSumaActionPerformed
-        bot="+"; //puse "z" en vez de un "+", por que me hacía mal el split.
+        bot="+";
         completo = completo + bot;
         this.jTextPantalla.setText(completo);
     }//GEN-LAST:event_jButtonSumaActionPerformed
@@ -427,6 +447,26 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     private void jButtonIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIgualActionPerformed
         bot="=";
         completo = completo + bot;
+        
+        File urlImg;
+        //Controlo las excepciones de la operaciones,
+        //si la operación contiene una división por 0, salta la excepción:
+        if(completo.contains("/0")){
+            //creo un objecto de Icon, con la ruta absoluta de la imagen,
+            //para pasarle la imagen al JOptionPane
+            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
+            JOptionPane.showMessageDialog(null,"******** ERROR ********\nNo se puede dividir por 0","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
+            operacion();
+        }
+        //si la operación contiene un valor negativo en la raiz, salta la excepción:
+        if(completo.contains("√-")){
+            //creo un objecto de Icon, con la ruta absoluta de la imagen,
+            //para pasarle la imagen al JOptionPane
+            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
+            JOptionPane.showMessageDialog(null,"******** ERROR ********\nSolo números positivos","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
+            operacion();
+        }
+        
         this.jTextPantalla.setText(completo);
     }//GEN-LAST:event_jButtonIgualActionPerformed
 
@@ -452,7 +492,18 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     private void jButtonPortoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPortoActionPerformed
         porto=Integer.parseInt(jTextPorto.getText());
         jTextPorto.setText("");
+        jTextPorto.setEnabled(false);
     }//GEN-LAST:event_jButtonPortoActionPerformed
+
+    private void jTextPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPantallaActionPerformed
+
+    }//GEN-LAST:event_jTextPantallaActionPerformed
+
+    private void jButtonPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPuntoActionPerformed
+        bot=".";
+        completo = completo + bot;
+        this.jTextPantalla.setText(completo);
+    }//GEN-LAST:event_jButtonPuntoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,6 +557,7 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIgual;
     private javax.swing.JButton jButtonMultiplicar;
     private javax.swing.JButton jButtonPorto;
+    private javax.swing.JButton jButtonPunto;
     private javax.swing.JButton jButtonRaiz;
     private javax.swing.JButton jButtonResta;
     private javax.swing.JButton jButtonSuma;
@@ -514,7 +566,12 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     private javax.swing.JTextField jTextPorto;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
-
+    
+    /**
+     * @param clienteSocket socket del cliente
+     * @param is es el flujo de entrada de bytes
+     * @param os es el flujo de salida de bytes
+     */
 
     Socket clienteSocket;
     InputStream is;
@@ -524,29 +581,44 @@ public class InterfazCalculadora extends javax.swing.JFrame {
         
         try {
             System.out.println("Creando socket cliente");
+            //creamos el socket
             clienteSocket=new Socket();
             System.out.println("Estableciendo la conexión");
-                        
+            
+            //En el paramentro "porto" recoge el número introducido en la variable "porto
+            //la variable porto es asinada por el jTextPorto
             InetSocketAddress addr=new InetSocketAddress("localhost",porto);
             clienteSocket.connect(addr);
             
+            //abrimos los flujos de entrada y salida
             is=clienteSocket.getInputStream();
             os=clienteSocket.getOutputStream();
             
             System.out.println("Enviando operación: ");
             
+            //con el OutputStream envio la operación
             os.write(completo.getBytes());
 
             byte[]mensaje=new byte[64];
+            
+            //con el InputStream leemos el array de bytes
             is.read(mensaje);
+            //asigno lo que leimos en una variable String
             String resultado=new String(mensaje);
             System.out.println("resultado operación: "+resultado);
+            //si el resultado recibido es diferente a null, lo visualizo en el jTextPantalla:
             if(resultado!=null){
-                this.jTextPantalla.setText(completo+resultado);
+                jTextPantalla.setText(resultado); //completo+
+                completo="";
+            //si no, se muestra en la pantalla un error:
+            }else{
+                jTextPantalla.setText("*ERROR* null");
+                completo="";
             }
             
             System.out.println("Cerrando el socket cliente");
-
+            
+            //cerramos el socket
             clienteSocket.close();
 
             System.out.println("Terminado");

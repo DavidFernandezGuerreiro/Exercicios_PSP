@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author David Fernández
+ * @author oracle
  */
 public class Calculadora2ClientePSP {
 

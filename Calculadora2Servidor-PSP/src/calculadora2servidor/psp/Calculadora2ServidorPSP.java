@@ -3,7 +3,7 @@ package calculadora2servidor.psp;
 
 /**
  *
- * @author David Fernández
+ * @author oracle
  */
 public class Calculadora2ServidorPSP {
 

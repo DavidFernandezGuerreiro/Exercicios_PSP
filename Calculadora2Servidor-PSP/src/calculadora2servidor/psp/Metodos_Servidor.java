@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author David Fernández
+ * @author David
  */
 public class Metodos_Servidor extends Thread{
     
@@ -211,6 +211,12 @@ class Hilo extends Thread{
                     //para poder realizar la operación
                     num=Float.parseFloat(operacion2[0]);
                     num2=Float.parseFloat(operacion2Igual[0]);
+                    //creo una excepción para que la división no pueda dividirse por 0:
+                    if(num2==0){
+                        String errorDivision="ERROR, no se puede dividir por 0";
+                        os.write(errorDivision.getBytes());
+                        break;
+                    }
                     //hago la operación y el resultado lo asigno a la varible "total"
                     total=num/num2;
                     System.out.println(num+"/"+num2+"="+total);
@@ -226,6 +232,11 @@ class Hilo extends Thread{
                     //asigno el valor de la operacion a una variable de tipo float
                     //para poder realizar la operación
                     num=Float.parseFloat(operacion2Igual[0]);
+                    if(num<0){
+                        String errorRaiz="ERROR, solo números positivos";
+                        os.write(errorRaiz.getBytes());
+                        break;
+                    }
                     //hago la operación y el resultado lo asigno a la varible "resultado"
                     total=(float) Math.sqrt(num);
                     System.out.println("√"+num+"="+total);

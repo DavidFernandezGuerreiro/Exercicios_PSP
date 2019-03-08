@@ -1,6 +1,7 @@
 
 package calculadora2cliente.psp;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author David Fernández
+ * @author David
  */
 public class InterfazCalculadora extends javax.swing.JFrame {
 
@@ -30,7 +31,7 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     }
 
     /**
-     * @param bot recojo cada número y signo de operación de los botones
+     * @param bot recojo cada número de los botones
      * @param completo concateno los numeros y operaciones
      * @param porto recojo el número de puerto
     */
@@ -311,8 +312,8 @@ public class InterfazCalculadora extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jTextPantalla, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jTextPorto, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jTextPorto, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonPorto)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -448,24 +449,24 @@ public class InterfazCalculadora extends javax.swing.JFrame {
         bot="=";
         completo = completo + bot;
         
-        File urlImg;
-        //Controlo las excepciones de la operaciones,
-        //si la operación contiene una división por 0, salta la excepción:
-        if(completo.contains("/0")){
-            //creo un objecto de Icon, con la ruta absoluta de la imagen,
-            //para pasarle la imagen al JOptionPane
-            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
-            JOptionPane.showMessageDialog(null,"******** ERROR ********\nNo se puede dividir por 0","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
-            operacion();
-        }
-        //si la operación contiene un valor negativo en la raiz, salta la excepción:
-        if(completo.contains("√-")){
-            //creo un objecto de Icon, con la ruta absoluta de la imagen,
-            //para pasarle la imagen al JOptionPane
-            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
-            JOptionPane.showMessageDialog(null,"******** ERROR ********\nSolo números positivos","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
-            operacion();
-        }
+//        File urlImg;
+//        //Controlo las excepciones de la operaciones,
+//        //si la operación contiene una división por 0, salta la excepción:
+//        if(completo.contains("/0")){
+//            //creo un objecto de Icon, con la ruta absoluta de la imagen,
+//            //para pasarle la imagen al JOptionPane
+//            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
+//            JOptionPane.showMessageDialog(null,"******** ERROR ********\nNo se puede dividir por 0","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
+//            operacion();
+//        }
+//        //si la operación contiene un valor negativo en la raiz, salta la excepción:
+//        if(completo.contains("√-")){
+//            //creo un objecto de Icon, con la ruta absoluta de la imagen,
+//            //para pasarle la imagen al JOptionPane
+//            Icon iconError=new javax.swing.ImageIcon((urlImg=new File("src/calculadora2cliente/psp/calculadora.png")).getAbsolutePath());
+//            JOptionPane.showMessageDialog(null,"******** ERROR ********\nSolo números positivos","ERROR",JOptionPane.INFORMATION_MESSAGE,iconError);
+//            operacion();
+//        }
         
         this.jTextPantalla.setText(completo);
     }//GEN-LAST:event_jButtonIgualActionPerformed
@@ -491,8 +492,11 @@ public class InterfazCalculadora extends javax.swing.JFrame {
 
     private void jButtonPortoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPortoActionPerformed
         porto=Integer.parseInt(jTextPorto.getText());
-        jTextPorto.setText("");
+        jTextPorto.setText("CONECTADO");
         jTextPorto.setEnabled(false);
+        jButtonPorto.setEnabled(false);
+        jButtonPorto.setBackground(Color.ORANGE);
+        JOptionPane.showMessageDialog(null,"*** Conexión aceptada ***");
     }//GEN-LAST:event_jButtonPortoActionPerformed
 
     private void jTextPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPantallaActionPerformed

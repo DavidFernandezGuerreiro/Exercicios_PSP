@@ -77,7 +77,7 @@ public class MetodosServidor {
                 System.out.println("Hay "+nConexiones+" usuario/s conectados");
                 
                 //restrinjo el número máximo de clientes conectados a la Sala de Chat
-                if(nConexiones==3){
+                if(nConexiones==4){
                     //envia un mensaje al cliente indicandole que la Sala de Chat está llena
                     os.write(("Sala de chat llena, intentelo más tarde\n#").getBytes()); 
                     //restamos el número de conexiones, por que al intentar conectarse el cliente ya ha sumado una conexión más
@@ -87,7 +87,7 @@ public class MetodosServidor {
                 }
                 
                 //si se desconectan clientes la Sala de Chat vuelve a quedar disponible para nuevos clientes
-                if(nConexiones<3){
+                if(nConexiones<4){
                     //vuelve a ejecutarse el hilo para permitir la conexión a nuevos clientes
                     h.start();
                 }
@@ -159,7 +159,7 @@ class hilo extends Thread{
                     
                     msgSplit=mensajeLeer.split("#");
 
-                    System.out.println("Mensaje recibido: "+msgSplit[0]);
+                    //System.out.println("Mensaje recibido: "+msgSplit[0]);
                     
                     MetodosServidor.mensaje=msgSplit[0] + "\n";
                     //imprimo por pantalla el mensaje a enviar

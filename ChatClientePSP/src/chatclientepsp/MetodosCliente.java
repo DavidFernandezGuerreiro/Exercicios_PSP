@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package chatclientepsp;
 
 import java.io.File;
@@ -14,7 +10,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,12 +76,10 @@ public class MetodosCliente {
      */
     public void enviarMensaje(String mensaje) {
         try {
-            //si el mensaje es diferente a "/bye", se escribe la fecha y hora, el nick y el mensaje a enviar
+            //si el mensaje es diferente a "/bye", se escribe el nick y el mensaje a enviar
             if (!mensaje.equalsIgnoreCase("/bye")) {
-                Date d = new Date();
-                String fecha = "[" + d.getDay() + "/" + d.getMonth() + " " + d.getHours() + ":" + d.getMinutes() + "]";
-                //Escribimos un mensaje con la fecha, el nick y el mensaje del cliente
-                os.write((fecha + " " + this.nickname + ": " + mensaje + "#").getBytes());
+                //Escribimos un mensaje el nick y el mensaje del cliente
+                os.write((this.nickname + ": " + mensaje + "#").getBytes());
             } else {
                 //si el mensaje que recibe es "/bye" cierra la conexión
                 os.write((this.nickname + " ha cerrado sesión.#").getBytes());
